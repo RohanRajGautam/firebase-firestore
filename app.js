@@ -1,4 +1,5 @@
 const cafeList = document.querySelector('#cafe-list');
+const cafeForm = document.querySelector('#add-cafe-form');
 
 //create element and render cafe
 function renderCafe(doc) {
@@ -15,6 +16,7 @@ function renderCafe(doc) {
   cafeList.appendChild(li);
 }
 
+//get data
 db.collection('cafe')
   .get()
   .then((snapshot) => {
@@ -22,3 +24,14 @@ db.collection('cafe')
       renderCafe(doc);
     });
   });
+
+//saving data
+cafeForm.addEventListener('submit', (e) => {
+  e.preventDefault();
+  db.collection('cafe').add({
+    name: cafeForm.name.value,
+    city: cafeForm.city.value,
+  });
+  cafeForm.name.value = '';
+  cafeForm.city.value = '';
+});
